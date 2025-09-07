@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generador de Códigos QR</title>
+  <link rel="stylesheet" href="CSS/qrgen.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <h1>Generador de Códigos QR</h1>
+      <p>Escribe un texto o URL y genera tu QR al instante.</p>
+    </header>
+
+    <section class="panel">
+      <form id="qrForm" class="form" autocomplete="off">
+        <label for="qrText">Texto o URL</label>
+        <input id="qrText" type="text" placeholder="https://ejemplo.com o cualquier texto" required />
+
+        <div class="row">
+          <div class="field">
+            <label for="qrSize">Tamaño</label>
+            <select id="qrSize">
+              <option value="128">128 px</option>
+              <option value="256" selected>256 px</option>
+              <option value="512">512 px</option>
+              <option value="1024">1024 px</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="qrFormat">Formato</label>
+            <select id="qrFormat">
+              <option value="png" selected>PNG</option>
+              <option value="svg">SVG</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="generateBtn" type="submit" class="btn primary">Generar QR</button>
+      </form>
+
+      <div id="result" class="result hidden">
+        <div class="preview">
+          <img id="qrImage" alt="Código QR generado" />
+        </div>
+        <div class="actions">
+          <button id="downloadBtn" class="btn">Descargar</button>
+          <button id="copyLinkBtn" class="btn">Copiar enlace</button>
+          <button id="resetBtn" class="btn outline">Limpiar</button>
+        </div>
+        <p id="errorMsg" class="error" role="alert" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <script src="JS/qrgen.js"></script>
+</body>
+<!--
+  Nota: Para generar el código QR se usa el servicio público
+  https://api.qrserver.com/v1/create-qr-code/ construyendo la URL con parámetros.
+  Esto evita depender de librerías externas y funciona solo en el navegador.
+-->
+</html>
