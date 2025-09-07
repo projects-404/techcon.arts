@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JapanAR </title>
+  <style>
+    :root { --bg: #0e0f12; --card: #161922; --text: #e7e9ee; --muted: #a7afbf; --radius: 18px; --shadow: 0 10px 30px rgba(0,0,0,.35);}    
+    *,*::before,*::after{ box-sizing:border-box; }
+    html,body{ margin:0; padding:0; font-family: system-ui, sans-serif; color:var(--text); background:var(--bg); scroll-behavior:smooth; }
+
+    header{
+      position:sticky; top:0; display:flex; justify-content:space-between; align-items:center;
+      padding:18px 32px; background:rgba(14,15,18,0.85); border-bottom:1px solid rgba(255,255,255,.08);
+      z-index:10; box-shadow:0 4px 24px rgba(0,0,0,.18); backdrop-filter:blur(8px); transition:background .3s;
+    }
+    .brand{
+      display:flex; align-items:center; gap:14px;
+    }
+    .brand .dot{
+      width:16px; height:16px; border-radius:50%; background:linear-gradient(135deg, #5b8cff, #7dd3fc);
+      box-shadow:0 0 8px #7dd3fc88;
+    }
+    .brand h1{
+      margin:0; font-size:2.1rem; font-weight:700; letter-spacing:2px;
+      background:linear-gradient(90deg,#5b8cff,#7dd3fc); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    nav a{
+      color:var(--text); text-decoration:none; margin:0 8px; padding:10px 18px; border-radius:12px;
+      font-weight:500; font-size:1.05rem; transition:background .2s, color .2s;
+      box-shadow:0 2px 8px rgba(0,0,0,.08);
+    }
+    nav a:hover{
+      background:linear-gradient(90deg,#5b8cff33,#7dd3fc33); color:#7dd3fc;
+      box-shadow:0 4px 16px rgba(91,140,255,.12);
+    }
+
+    .banner {
+      position: relative;
+      width: 100vw;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      transition: height 0.7s cubic-bezier(.2,.8,.2,1);
+    }
+    .banner.banner-full {
+      height: 100vh;
+    }
+    .banner video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100%;
+      object-fit: cover;
+      z-index: - 1;
+    }
+    .banner h2 {
+      position: relative;
+      background: rgba(0,0,0,0.5);
+      padding: 20px;
+      border-radius: var(--radius);
+      font-size: 2rem;
+      color: #fff;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 220px;
+      min-height: 60px;
+    }
+
+    section{ padding:40px 20px; max-width:1200px; margin:auto; }
+    .gallery {
+      display: grid;
+      gap: 40px;
+      grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+    }
+
+    /* Flip */
+    .card{ position: relative; perspective:1200px; cursor:pointer; }
+    .flip-inner{ position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .6s cubic-bezier(.2,.8,.2,1); }
+    .card.flipped .flip-inner{ transform:rotateY(180deg); }
+    .face{ position:relative; width:100%; height:100%; backface-visibility:hidden; border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); background:var(--card); }
+    .front {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    .front img {
+      width: 100%;
+      max-height: 340px;
+      object-fit: cover;
+      border-radius: 14px 14px 0 0; /* Solo arriba redondeado */
+      box-shadow: 0 4px 16px rgba(91,140,255,0.10);
+      margin-bottom: 16px;
+      border: 2px solid #7dd3fc44;
+    }
+    .front .info {
+      padding: 16px;
+      width: 100%;
+      text-align: center;
+      display: block;
+    }
+    .back{ position:absolute; inset:0; transform:rotateY(180deg); background:#fff; display:flex; align-items:center; justify-content:center; }
+    .back img{ max-width:80%; height:auto; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.25); }
+    .qr-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(123, 211, 252, 0.18);
+      backdrop-filter: blur(6px);
+      color: #fff;
+      border: 2px solid #7dd3fc;
+      border-radius: 8px;
+      padding: 7px 18px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      z-index: 2;
+      box-shadow: 0 2px 8px rgba(91,140,255,0.10);
+      transition: background .2s, color .2s;
+      text-shadow: 0 1px 4px #0008;
+    }
+    .qr-btn:hover {
+      background: rgba(123, 211, 252, 0.35);
+      color: #7dd3fc;
+    }
+
+    /* Estilos para el efecto de banner completo */
+    .banner-full {
+      height: 100vh;
+      transition: height 0.7s cubic-bezier(.2,.8,.2,1);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand"><span class="dot"></span><h1>ArtAR : Japan 2025</h1></div>
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#galeria">Galería</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <section id="inicio" class="banner">
+    <video autoplay muted loop>
+      <source src="videobanner.mp4" type="video/mp4">
+      Tu navegador no soporta el formato de video.
+    </video>
+    <h2 id="banner-title">Bienvenidos</h2>
+  </section>
+
+  <section id="galeria">
+    <h2>Japan AR</h2>
+    <div class="gallery">
+      <div class="card">
+        <button class="qr-btn">QR</button>
+        <div class="flip-inner">
+          <div class="face front">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Tsunami_by_hokusai_19th_century.jpg" alt="Obra 1" />
+            <div class="info">
+              <h3>Ola Estilizada — Ukiyo‑e</h3>
+              <p>Inspirada en el estilo japonés tradicional, con colores planos y líneas marcadas.</p>
+            </div>
+          </div>
+          <div class="face back">
+            <img src="assets/obra1-qr.png" alt="QR de Obra 1" />
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <button class="qr-btn">QR</button>
+        <div class="flip-inner">
+          <div class="face front">
+            <img src="assets/obra2.jpg" alt="Obra 2" />
+            <div class="info">
+              <h3>Retrato Bijin‑ga</h3>
+              <p>Retrato inspirado en las bellas mujeres del arte japonés, con contorno marcado.</p>
+            </div>
+          </div>
+          <div class="face back">
+            <img src="assets/obra2-qr.png" alt="QR de Obra 2" />
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <button class="qr-btn">QR</button>
+        <div class="flip-inner">
+          <div class="face front">
+            <img src="assets/obra3.jpg" alt="Obra 3" />
+            <div class="info">
+              <h3>Paisaje Montañoso</h3>
+              <p>Paisaje inspirado en la naturaleza japonesa, con tonos suaves y atmósfera tranquila.</p>
+            </div>
+          </div>
+          <div class="face back">
+            <img src="assets/obra3-qr.png" alt="QR de Obra 3" />
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <button class="qr-btn">QR</button>
+        <div class="flip-inner">
+          <div class="face front">
+            <img src="assets/obra4.jpg" alt="Obra 4" />
+            <div class="info">
+              <h3>Flor de Cerezo</h3>
+              <p>Representación de la flor de cerezo, símbolo de belleza y renovación en Japón.</p>
+            </div>
+          </div>
+          <div class="face back">
+            <img src="assets/obra4-qr.png" alt="QR de Obra 4" />
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <button class="qr-btn">QR</button>
+        <div class="flip-inner">
+          <div class="face front">
+            <img src="assets/obra5.jpg" alt="Obra 5" />
+            <div class="info">
+              <h3>Templo en la Niebla</h3>
+              <p>Un templo tradicional japonés envuelto en niebla, evocando misterio y serenidad.</p>
+            </div>
+          </div>
+          <div class="face back">
+            <img src="assets/obra5-qr.png" alt="QR de Obra 5" />
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <button class="qr-btn">QR</button>
+        <div class="flip-inner">
+          <div class="face front">
+            <img src="assets/obra6.jpg" alt="Obra 6" />
+            <div class="info">
+              <h3>Samurái en Silueta</h3>
+              <p>La figura de un samurái al atardecer, símbolo de honor y tradición japonesa.</p>
+            </div>
+          </div>
+          <div class="face back">
+            <img src="assets/obra6-qr.png" alt="QR de Obra 6" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <h2>Contacto</h2>
+    <p>Correo: info@galeria.test</p>
+    <p>Ubicación: Guayaquil, Ecuador</p>
+  </section>
+
+  <footer>
+    <p style="text-align: center;">© 2025 Proyecto Interdisciplinario · Delfos</p>
+  </footer>
+  <script>
+    document.querySelectorAll('.qr-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const card = btn.closest('.card');
+        card.classList.toggle('flipped');
+        btn.textContent = card.classList.contains('flipped') ? 'Obra' : 'QR';
+      });
+    });
+  </script>
+  <script>
+    document.querySelectorAll('.front img').forEach(img => {
+      img.addEventListener('click', function(e) {
+        e.stopPropagation();
+
+        // Crear fondo modal
+        const modalBg = document.createElement('div');
+        modalBg.style.position = 'fixed';
+        modalBg.style.top = 0;
+        modalBg.style.left = 0;
+        modalBg.style.width = '100vw';
+        modalBg.style.height = '100vh';
+        modalBg.style.background = 'rgba(0,0,0,0.7)';
+        modalBg.style.display = 'flex';
+        modalBg.style.alignItems = 'center';
+        modalBg.style.justifyContent = 'center';
+        modalBg.style.zIndex = 9999;
+        modalBg.style.cursor = 'pointer';
+
+        // Crear canvas
+        const canvas = document.createElement('canvas');
+        canvas.width = window.innerWidth * 0.5;
+        canvas.height = window.innerHeight * 0.5;
+        canvas.style.width = '50vw';
+        canvas.style.height = '50vh';
+        canvas.style.borderRadius = '18px';
+        canvas.style.boxShadow = '0 8px 32px rgba(91,140,255,0.18)';
+        canvas.style.background = '#fff';
+
+        modalBg.appendChild(canvas);
+        document.body.appendChild(modalBg);
+
+        // Dibujar imagen en el canvas (ajustada al canvas)
+        const ctx = canvas.getContext('2d');
+        const tempImg = new window.Image();
+        tempImg.src = img.src;
+        tempImg.onload = function() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(tempImg, 0, 0, canvas.width, canvas.height);
+        };
+
+        // Cerrar modal al hacer click fuera del canvas
+        modalBg.addEventListener('click', function(e) {
+          if (e.target === modalBg) modalBg.remove();
+        });
+      });
+    });
+  </script>
+  <script>
+    const banner = document.querySelector('.banner');
+    const bannerTitle = document.getElementById('banner-title');
+    banner.classList.add('banner-full');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) {
+        banner.classList.remove('banner-full');
+        bannerTitle.textContent = 'Explora Arte';
+      } else {
+        banner.classList.add('banner-full');
+        bannerTitle.textContent = 'Bienvenidos';
+      }
+    });
+  </script>
+</body>
+</html>
