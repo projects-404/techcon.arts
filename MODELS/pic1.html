@@ -1,24 +1,21 @@
-
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
   </head>
   <body>
-    <a-scene mindar-image="imageTargetSrc: https://github.com/projects-404/techcon_arts/blob/0f2263b547d1b3a76788254914121234e4807cd7/MODELS/targets/targets%20(6).mind" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
-      <a-assets>
-	<img id="card" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" />
-	<a-asset-item id="avatarModel" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/softmind/scene.gltf"></a-asset-item>
-      </a-assets>
+    <a-scene mindar-image="imageTargetSrc:hhttps://github.com/projects-404/techcon_arts/blob/ccaba7ffca402e195e267aebdefafabbbdc2409d/MODELS/targets/targets%20(6).mind;" 
+             color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+     
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-        <a-gltf-model rotation="0 0 0 " position="0 0 0.1" scale="0.005 0.005 0.005" src="https://github.com/projects-404/techcon_arts/blob/7d2ad6a274cae94237d4dfa33ecb3b30545f29dc/MODELS/Untitled.glb"
-          animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
-        >
+        
+        <a-gltf-model rotation="0 120 0 " position="0 -0.6 0" scale="0.9 0.7 0.7" 
+                      src="https://github.com/projects-404/techcon_arts/blob/ccaba7ffca402e195e267aebdefafabbbdc2409d/MODELS/Untitled.glb" 
+                      >
       </a-entity>
     </a-scene>
   </body>
